@@ -59,7 +59,7 @@ export default function App() {
           </TabsTrigger>
           <TabsTrigger value="daily"
             className="data-[state=active]:bg-muted data-[state=active]:text-gold data-[state=active]:shadow-[0_0_12px_rgba(201,163,88,0.1)] text-muted-foreground">
-            即时运势
+            随手指
           </TabsTrigger>
         </TabsList>
       </Tabs>
