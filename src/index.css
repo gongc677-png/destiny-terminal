@@ -1,0 +1,35 @@
+:root {
+  --bg: #0f0f14;
+  --bg-card: #1a1a24;
+  --bg-input: #12121a;
+  --border: #2a2a3a;
+  --text: #d4d4dc;
+  --text-dim: #6a6a7a;
+  --text-bright: #f0e6d3;
+  --accent: #c9a96e;
+  --accent-dim: #8a7040;
+  --wood: #4caf50;
+  --fire: #f44336;
+  --earth: #ff9800;
+  --metal: #ffc107;
+  --water: #2196f3;
+  --fortune-ji: #4caf50;
+  --fortune-ping: #ff9800;
+  --fortune-xiong: #f44336;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+  font-family: 'PingFang SC', 'Noto Sans SC', 'Microsoft YaHei', sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  min-height: 100vh;
+  -webkit-font-smoothing: antialiased;
+}
+
+#root {
+  max-width: 480px;
+  margin: 0 auto;
+  min-height: 100vh;
+}
