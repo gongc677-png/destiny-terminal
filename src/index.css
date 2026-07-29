@@ -50,6 +50,19 @@ body {
   position: relative;
 }
 
+@media (min-width: 768px) {
+  #root {
+    max-width: 720px;
+  }
+}
+
+@media (min-width: 1024px) {
+  #root {
+    max-width: 880px;
+    padding: 0 40px;
+  }
+}
+
 /* Starfield background */
 #root::before {
   content: '';
