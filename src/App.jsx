@@ -85,7 +85,7 @@ export default function App() {
         )}
         {activeTab === 'xlr' && (
           <motion.div key="xlr" initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: -20 }} transition={{ duration: 0.25 }}>
-            <div className="mb-5 rounded-2xl border border-border bg-card p-5 flex flex-col gap-4">
+            <div className="mb-5 rounded-2xl border border-border bg-card p-4 flex flex-col gap-3">
               <button onClick={handleNian}
                 className="w-full py-3.5 rounded-xl bg-gradient-to-r from-accent to-[#5a4822] hover:from-gold hover:to-accent text-accent-foreground font-semibold tracking-[0.2em] text-base transition-all shadow-[0_4px_24px_rgba(201,163,88,0.15)]">
                 念 · 当下起盘
@@ -97,15 +97,15 @@ export default function App() {
                 <div className="flex-1 h-px bg-border" />
               </div>
 
-              <div className="flex gap-2 items-end">
+              <div className="flex gap-1.5 items-end">
                 <input type="number" value={xlrNum1} onChange={e => setXlrNum1(e.target.value)}
-                  placeholder="数一" className="flex-1 bg-input border border-border text-foreground h-10 rounded-lg text-center text-sm placeholder:text-star-faint focus:outline-none focus:border-accent" />
+                  placeholder="一" className="min-w-0 flex-1 bg-input border border-border text-foreground h-9 rounded-lg text-center text-sm placeholder:text-star-faint focus:outline-none focus:border-accent" />
                 <input type="number" value={xlrNum2} onChange={e => setXlrNum2(e.target.value)}
-                  placeholder="数二" className="flex-1 bg-input border border-border text-foreground h-10 rounded-lg text-center text-sm placeholder:text-star-faint focus:outline-none focus:border-accent" />
+                  placeholder="二" className="min-w-0 flex-1 bg-input border border-border text-foreground h-9 rounded-lg text-center text-sm placeholder:text-star-faint focus:outline-none focus:border-accent" />
                 <input type="number" value={xlrNum3} onChange={e => setXlrNum3(e.target.value)}
-                  placeholder="数三" className="flex-1 bg-input border border-border text-foreground h-10 rounded-lg text-center text-sm placeholder:text-star-faint focus:outline-none focus:border-accent" />
+                  placeholder="三" className="min-w-0 flex-1 bg-input border border-border text-foreground h-9 rounded-lg text-center text-sm placeholder:text-star-faint focus:outline-none focus:border-accent" />
                 <button onClick={handleXlrFromNumbers}
-                  className="px-4 py-2 rounded-lg border border-border text-xs text-muted-foreground hover:border-accent hover:text-foreground transition-all shrink-0">
+                  className="px-3 py-2 rounded-lg border border-border text-xs text-muted-foreground hover:border-accent hover:text-foreground transition-all shrink-0">
                   起卦
                 </button>
               </div>
@@ -116,9 +116,9 @@ export default function App() {
 
               <div className="flex gap-2">
                 <input type="text" value={xlrInput} onChange={e => setXlrInput(e.target.value)}
-                  placeholder="写下你心念所动…" className="flex-1 bg-input border border-border text-foreground h-10 rounded-lg px-3 text-sm placeholder:text-star-faint focus:outline-none focus:border-accent" />
+                  placeholder="写下你心念所动…" className="min-w-0 flex-1 bg-input border border-border text-foreground h-9 rounded-lg px-3 text-sm placeholder:text-star-faint focus:outline-none focus:border-accent" />
                 <button onClick={handleXlrFromText}
-                  className="px-4 py-2 rounded-lg border border-border text-xs text-muted-foreground hover:border-accent hover:text-foreground transition-all shrink-0">
+                  className="px-3 py-2 rounded-lg border border-border text-xs text-muted-foreground hover:border-accent hover:text-foreground transition-all shrink-0">
                   起卦
                 </button>
               </div>
