@@ -1,35 +1,92 @@
 :root {
-  --bg: #0f0f14;
-  --bg-card: #1a1a24;
-  --bg-input: #12121a;
-  --border: #2a2a3a;
-  --text: #d4d4dc;
-  --text-dim: #6a6a7a;
-  --text-bright: #f0e6d3;
-  --accent: #c9a96e;
-  --accent-dim: #8a7040;
-  --wood: #4caf50;
-  --fire: #f44336;
-  --earth: #ff9800;
-  --metal: #ffc107;
-  --water: #2196f3;
-  --fortune-ji: #4caf50;
-  --fortune-ping: #ff9800;
-  --fortune-xiong: #f44336;
+  --space-deep: #080c18;
+  --space-night: #0f1424;
+  --space-card: #151b30;
+  --space-border: #1e2746;
+  --starlight: #e6ddca;
+  --star-muted: #787a8a;
+  --star-faint: #3d4058;
+  --gold: #c9a358;
+  --gold-bright: #e0c878;
+  --gold-dim: #8a6d3b;
+  --wood: #5b9a6b;
+  --fire: #c95a4a;
+  --earth: #c9983e;
+  --metal: #d4b86a;
+  --water: #4a80b4;
+  --ji: #5b9a6b;
+  --ping: #c9983e;
+  --xiong: #c95a4a;
 }
 
-* { margin: 0; padding: 0; box-sizing: border-box; }
+*, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
 
 body {
-  font-family: 'PingFang SC', 'Noto Sans SC', 'Microsoft YaHei', sans-serif;
-  background: var(--bg);
-  color: var(--text);
+  font-family: 'PingFang SC','Noto Serif SC','Noto Sans SC','Microsoft YaHei',sans-serif;
+  background: var(--space-deep);
+  color: var(--starlight);
   min-height: 100vh;
   -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
 }
 
 #root {
   max-width: 480px;
   margin: 0 auto;
   min-height: 100vh;
+  position: relative;
+}
+
+/* --- Starfield Background --- */
+#root::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  background:
+    radial-gradient(1px 1px at 10% 15%, rgba(255,255,255,0.4), transparent),
+    radial-gradient(1px 1px at 25% 35%, rgba(255,255,255,0.3), transparent),
+    radial-gradient(1.5px 1.5px at 40% 10%, rgba(201,163,88,0.5), transparent),
+    radial-gradient(1px 1px at 55% 45%, rgba(255,255,255,0.25), transparent),
+    radial-gradient(1.5px 1.5px at 70% 20%, rgba(201,163,88,0.35), transparent),
+    radial-gradient(1px 1px at 80% 55%, rgba(255,255,255,0.3), transparent),
+    radial-gradient(2px 2px at 15% 70%, rgba(201,163,88,0.4), transparent),
+    radial-gradient(1px 1px at 35% 80%, rgba(255,255,255,0.2), transparent),
+    radial-gradient(1.5px 1.5px at 60% 75%, rgba(255,255,255,0.35), transparent),
+    radial-gradient(1px 1px at 85% 85%, rgba(201,163,88,0.3), transparent),
+    radial-gradient(1px 1px at 90% 40%, rgba(255,255,255,0.2), transparent),
+    radial-gradient(1.5px 1.5px at 50% 60%, rgba(255,255,255,0.25), transparent),
+    radial-gradient(2px 2px at 30% 5%, rgba(201,163,88,0.35), transparent),
+    radial-gradient(1px 1px at 75% 5%, rgba(255,255,255,0.2), transparent),
+    linear-gradient(180deg, var(--space-deep) 0%, #0c1020 50%, var(--space-night) 100%);
+}
+
+/* Twinkling animation */
+@keyframes twinkle {
+  0%, 100% { opacity: 0.4; }
+  50% { opacity: 1; }
+}
+
+/* Slow drift nebula */
+#root::after {
+  content: '';
+  position: fixed;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  z-index: 0;
+  pointer-events: none;
+  background:
+    radial-gradient(ellipse at 30% 20%, rgba(90,130,180,0.06) 0%, transparent 50%),
+    radial-gradient(ellipse at 70% 60%, rgba(200,150,80,0.04) 0%, transparent 50%),
+    radial-gradient(ellipse at 50% 80%, rgba(120,100,160,0.05) 0%, transparent 50%);
+  animation: nebulaDrift 30s ease-in-out infinite;
+}
+
+@keyframes nebulaDrift {
+  0%, 100% { transform: translate(0, 0); }
+  33% { transform: translate(1%, -0.5%); }
+  66% { transform: translate(-0.5%, 1%); }
 }
