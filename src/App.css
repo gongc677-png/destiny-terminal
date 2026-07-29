@@ -1,5 +1,0 @@
-.app { position: relative; z-index: 1; padding: 28px 16px 40px; }
-
-::-webkit-scrollbar { width: 4px; }
-::-webkit-scrollbar-track { background: var(--space-deep); }
-::-webkit-scrollbar-thumb { background: var(--space-border); border-radius: 2px; }

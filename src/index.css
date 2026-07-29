@@ -1,32 +1,43 @@
 @import "tailwindcss";
 
-:root {
-  --space-deep: #080c18;
-  --space-night: #0f1424;
-  --space-card: #151b30;
-  --space-border: #1e2746;
-  --starlight: #e6ddca;
-  --star-muted: #787a8a;
-  --star-faint: #3d4058;
-  --gold: #c9a358;
-  --gold-bright: #e0c878;
-  --gold-dim: #8a6d3b;
-  --wood: #5b9a6b;
-  --fire: #c95a4a;
-  --earth: #c9983e;
-  --metal: #d4b86a;
-  --water: #4a80b4;
-  --ji: #5b9a6b;
-  --ping: #c9983e;
-  --xiong: #c95a4a;
+@theme inline {
+  --color-background: #080c18;
+  --color-foreground: #e6ddca;
+  --color-card: #151b30;
+  --color-card-foreground: #e6ddca;
+  --color-primary: #c9a358;
+  --color-primary-foreground: #0f1424;
+  --color-secondary: #1e2746;
+  --color-secondary-foreground: #e6ddca;
+  --color-muted: #0f1424;
+  --color-muted-foreground: #787a8a;
+  --color-accent: #8a6d3b;
+  --color-accent-foreground: #e6ddca;
+  --color-destructive: #c95a4a;
+  --color-destructive-foreground: #e6ddca;
+  --color-border: #1e2746;
+  --color-input: #0f1424;
+  --color-ring: #8a6d3b;
+  --color-star-faint: #3d4058;
+
+  --color-wood: #5b9a6b;
+  --color-fire: #c95a4a;
+  --color-earth: #c9983e;
+  --color-metal: #d4b86a;
+  --color-water: #4a80b4;
+  --color-gold: #c9a358;
+  --color-gold-bright: #e0c878;
+  --color-gold-dim: #8a6d3b;
+
+  --font-serif: 'Noto Serif SC', 'STSong', 'SimSun', serif;
 }
 
-*, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
+* { margin: 0; padding: 0; box-sizing: border-box; }
 
 body {
-  font-family: 'PingFang SC','Noto Serif SC','Noto Sans SC','Microsoft YaHei',sans-serif;
-  background: var(--space-deep);
-  color: var(--starlight);
+  font-family: 'PingFang SC', 'Noto Sans SC', 'Microsoft YaHei', sans-serif;
+  background: var(--color-background);
+  color: var(--color-foreground);
   min-height: 100vh;
   -webkit-font-smoothing: antialiased;
   overflow-x: hidden;
@@ -39,7 +50,7 @@ body {
   position: relative;
 }
 
-/* --- Starfield Background --- */
+/* Starfield background */
 #root::before {
   content: '';
   position: fixed;
@@ -61,16 +72,9 @@ body {
     radial-gradient(1.5px 1.5px at 50% 60%, rgba(255,255,255,0.25), transparent),
     radial-gradient(2px 2px at 30% 5%, rgba(201,163,88,0.35), transparent),
     radial-gradient(1px 1px at 75% 5%, rgba(255,255,255,0.2), transparent),
-    linear-gradient(180deg, var(--space-deep) 0%, #0c1020 50%, var(--space-night) 100%);
+    linear-gradient(180deg, var(--color-background) 0%, #0c1020 50%, var(--color-background) 100%);
 }
 
-/* Twinkling animation */
-@keyframes twinkle {
-  0%, 100% { opacity: 0.4; }
-  50% { opacity: 1; }
-}
-
-/* Slow drift nebula */
 #root::after {
   content: '';
   position: fixed;
@@ -92,3 +96,7 @@ body {
   33% { transform: translate(1%, -0.5%); }
   66% { transform: translate(-0.5%, 1%); }
 }
+
+::-webkit-scrollbar { width: 4px; }
+::-webkit-scrollbar-track { background: var(--color-background); }
+::-webkit-scrollbar-thumb { background: var(--color-border); border-radius: 2px; }
