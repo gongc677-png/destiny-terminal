@@ -43,83 +43,23 @@ body {
   overflow-x: hidden;
 }
 
-/* 现代化响应式布局设计 */
 #root {
-  max-width: 100vw;
+  max-width: 480px;
   margin: 0 auto;
   min-height: 100vh;
   position: relative;
-  width: 100%;
-  overflow-x: hidden;
-}
-
-/* 响应式容器设置 */
-.responsive-container {
-  max-width: 100%;
-  margin: 0 auto;
-  padding: 0 1rem;
-}
-
-/* 移动端优先的响应式断点 */
-@media (min-width: 640px) {
-  body {
-    font-size: 16px;
-  }
-  
-  #root {
-    max-width: 640px;
-  }
-  
-  .responsive-container {
-    padding: 0 1.5rem;
-  }
 }
 
 @media (min-width: 768px) {
   #root {
     max-width: 720px;
   }
-  
-  .responsive-container {
-    padding: 0 2rem;
-  }
-  
-  body {
-    font-size: 17px;
-  }
 }
 
 @media (min-width: 1024px) {
   #root {
     max-width: 880px;
-  }
-  
-  .responsive-container {
-    padding: 0 2.5rem;
-  }
-  
-  body {
-    font-size: 18px;
-  }
-}
-
-@media (min-width: 1280px) {
-  #root {
-    max-width: 1024px;
-  }
-  
-  .responsive-container {
-    padding: 0 3rem;
-  }
-}
-
-@media (min-width: 1536px) {
-  #root {
-    max-width: 1280px;
-  }
-  
-  .responsive-container {
-    padding: 0 4rem;
+    padding: 0 40px;
   }
 }
 
@@ -195,20 +135,3 @@ body {
 ::-webkit-scrollbar { width: 4px; }
 ::-webkit-scrollbar-track { background: var(--color-background); }
 ::-webkit-scrollbar-thumb { background: var(--color-border); border-radius: 2px; }
-
-/* 移动端优化的字体大小 */
-@media (max-width: 639px) {
-  h1 { font-size: 1.75rem; }
-  h2 { font-size: 1.5rem; }
-  h3 { font-size: 1.25rem; }
-  .text-base { font-size: 1rem; }
-  .text-lg { font-size: 1.125rem; }
-  .text-xl { font-size: 1.25rem; }
-}
-
-/* 高DPI屏幕优化 */
-@media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi) {
-  #root::before {
-    background-size: 2px 2px;
-  }
-}
