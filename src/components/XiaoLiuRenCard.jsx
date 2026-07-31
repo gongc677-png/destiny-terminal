@@ -47,7 +47,10 @@ export default function XiaoLiuRenCard({ data }) {
     >
       <div className="flex items-baseline justify-between">
         <h2 className="font-serif text-base tracking-[0.2em] md:text-lg">小六壬 · 即时速断</h2>
-        <span className="latin-label">Instant Divination</span>
+        <span className="mini-label">
+          <span className="oracle">卜</span>
+          <span>速断</span>
+        </span>
       </div>
       <div className="hairline my-3 md:my-4" />
 

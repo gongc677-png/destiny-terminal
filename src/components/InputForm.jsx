@@ -54,14 +54,20 @@ export default function InputForm({ onCalculate }) {
     >
       <div className="flex items-baseline justify-between">
         <h2 className="font-serif text-base tracking-[0.2em] md:text-lg">输入生辰</h2>
-        <span className="latin-label">Input · Birth Data</span>
+        <span className="mini-label">
+          <span className="oracle">生</span>
+          <span className="oracle">辰</span>
+        </span>
       </div>
       <div className="hairline mb-6 mt-3 md:mb-8" />
 
       <form onSubmit={handleSubmit}>
         <div className="grid grid-cols-2 gap-x-6 gap-y-5 md:gap-x-10 md:gap-y-7">
           <div>
-            <label className="latin-label mb-1 block">年份 · Year</label>
+            <label className="mini-label mb-1 block">
+              <span className="oracle">年</span>
+              <span className="ml-1.5">年份</span>
+            </label>
             <input
               type="number"
               value={year}
@@ -74,7 +80,10 @@ export default function InputForm({ onCalculate }) {
           </div>
 
           <div>
-            <label className="latin-label mb-1 block">月份 · Month</label>
+            <label className="mini-label mb-1 block">
+              <span className="oracle">月</span>
+              <span className="ml-1.5">月份</span>
+            </label>
             <div className="relative">
               <select
                 value={month}
@@ -92,7 +101,10 @@ export default function InputForm({ onCalculate }) {
           </div>
 
           <div>
-            <label className="latin-label mb-1 block">日期 · Day</label>
+            <label className="mini-label mb-1 block">
+              <span className="oracle">日</span>
+              <span className="ml-1.5">日期</span>
+            </label>
             <div className="relative">
               <select
                 value={safeDay}
@@ -110,7 +122,10 @@ export default function InputForm({ onCalculate }) {
           </div>
 
           <div>
-            <label className="latin-label mb-1 block">时辰 · Hour</label>
+            <label className="mini-label mb-1 block">
+              <span className="oracle">辰</span>
+              <span className="ml-1.5">时辰</span>
+            </label>
             <div className="relative">
               <select
                 value={hour}
@@ -183,8 +198,8 @@ export default function InputForm({ onCalculate }) {
           className="mt-8 w-full border border-foreground/25 py-4 font-serif text-base tracking-[0.5em] transition-colors duration-300 hover:border-accent hover:bg-accent hover:text-accent-foreground md:mt-10 md:py-5 md:text-lg"
         >
           起 盘
-          <span className="mt-1 block text-[9px] uppercase tracking-[0.45em] opacity-60">
-            Cast the Chart
+          <span className="mt-1 block text-[9px] tracking-[0.45em] opacity-60">
+            <span className="oracle">卜</span> · 起盘
           </span>
         </motion.button>
       </form>

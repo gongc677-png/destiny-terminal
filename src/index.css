@@ -1,36 +1,49 @@
 @import "tailwindcss";
 
-@theme inline {
-  --color-background: #0a0a0c;
-  --color-foreground: #e8e3d7;
-  --color-card: #0d0d10;
-  --color-card-foreground: #e8e3d7;
-  --color-primary: #e8e3d7;
-  --color-primary-foreground: #0a0a0c;
-  --color-secondary: #141417;
-  --color-secondary-foreground: #e8e3d7;
-  --color-muted: #131316;
-  --color-muted-foreground: #6e6e76;
-  --color-accent: #b0402f;
-  --color-accent-foreground: #f3efe6;
-  --color-destructive: #a63a30;
-  --color-destructive-foreground: #f3efe6;
-  --color-border: #1d1d22;
-  --color-input: transparent;
-  --color-ring: #b0402f;
-  --color-star-faint: #4d4d55;
+/* 方正甲骨文（免费商用）—— 仅收录本站用到的字形子集 */
+@font-face {font-family:'FZJiaGuWen';src:url('./assets/jgw/sub/L1_4e00_192.woff2');unicode-range:U+4E00,U+4E09,U+4E8C,U+4E94;}
+@font-face {font-family:'FZJiaGuWen';src:url('./assets/jgw/sub/L1_4fea_192.woff2');unicode-range:U+516D;}
+@font-face {font-family:'FZJiaGuWen';src:url('./assets/jgw/sub/L1_5268_192.woff2');unicode-range:U+535C,U+5409;}
+@font-face {font-family:'FZJiaGuWen';src:url('./assets/jgw/sub/L1_543c_192.woff2');unicode-range:U+547D;}
+@font-face {font-family:'FZJiaGuWen';src:url('./assets/jgw/sub/L1_5784_192.woff2');unicode-range:U+58EC,U+5927,U+5929,U+5973;}
+@font-face {font-family:'FZJiaGuWen';src:url('./assets/jgw/sub/L1_5e37_192.woff2');unicode-range:U+5E74,U+5FF5;}
+@font-face {font-family:'FZJiaGuWen';src:url('./assets/jgw/sub/L1_65b1_192.woff2');unicode-range:U+65E5,U+6708;}
+@font-face {font-family:'FZJiaGuWen';src:url('./assets/jgw/sub/L1_73ce_192.woff2');unicode-range:U+751F,U+7537,U+76E4;}
+@font-face {font-family:'FZJiaGuWen';src:url('./assets/jgw/sub/L1_8608_192.woff2');unicode-range:U+884C;}
+@font-face {font-family:'FZJiaGuWen';src:url('./assets/jgw/sub/L1_8d20_192.woff2');unicode-range:U+8FB0;}
 
-  --color-wood: #7a9b7d;
-  --color-fire: #b0563f;
+@theme inline {
+  --color-background: #080706;
+  --color-foreground: #e8e0cc;
+  --color-card: #0d0b08;
+  --color-card-foreground: #e8e0cc;
+  --color-primary: #e8e0cc;
+  --color-primary-foreground: #0a0806;
+  --color-secondary: #16120b;
+  --color-secondary-foreground: #e8e0cc;
+  --color-muted: #141008;
+  --color-muted-foreground: #8a7d63;
+  --color-accent: #b3925c;
+  --color-accent-foreground: #0e0a04;
+  --color-destructive: #a08050;
+  --color-destructive-foreground: #e8e0cc;
+  --color-border: #2a2215;
+  --color-input: transparent;
+  --color-ring: #b3925c;
+  --color-star-faint: #5c5340;
+
+  --color-wood: #7d9670;
+  --color-fire: #b07a3f;
   --color-earth: #a08a4f;
   --color-metal: #b3a47e;
   --color-water: #6d8ba6;
-  --color-gold: #e8e3d7;
-  --color-gold-bright: #f4f0e6;
-  --color-gold-dim: #9a927f;
+  --color-gold: #c9a358;
+  --color-gold-bright: #e0c878;
+  --color-gold-dim: #8a6d3b;
 
   --font-serif: 'Noto Serif SC', 'Source Han Serif SC', 'Songti SC', 'STSong', 'SimSun', serif;
   --font-latin: 'Cormorant Garamond', 'EB Garamond', 'Times New Roman', serif;
+  --font-oracle: 'FZJiaGuWen', 'Noto Serif SC', 'Source Han Serif SC', serif;
 }
 
 * {
@@ -45,7 +58,8 @@ html {
 
 body {
   font-family: 'PingFang SC', 'Noto Sans SC', 'Microsoft YaHei', sans-serif;
-  background: var(--color-background);
+  background:
+    radial-gradient(120% 90% at 50% 0%, #0b0906 0%, #060504 45%, #020202 100%);
   color: var(--color-foreground);
   min-height: 100vh;
   -webkit-font-smoothing: antialiased;
@@ -54,8 +68,8 @@ body {
 }
 
 ::selection {
-  background: rgba(176, 64, 47, 0.35);
-  color: #f3efe6;
+  background: rgba(179, 146, 92, 0.35);
+  color: #f3ead8;
 }
 
 ::-webkit-scrollbar {
@@ -89,18 +103,21 @@ body {
   background: var(--color-border);
 }
 
-/* 西文小标签：杂志式大写间距 */
-.latin-label {
-  font-family: var(--font-latin);
+/* 甲骨文点缀字 */
+.oracle {
+  font-family: var(--font-oracle);
+  font-weight: 400;
+}
+
+/* 小号标签：甲骨文 + 宋体混排 */
+.mini-label {
   font-size: 10px;
-  letter-spacing: 0.42em;
-  text-transform: uppercase;
+  letter-spacing: 0.28em;
   color: var(--color-muted-foreground);
-  font-weight: 500;
 }
 
 @media (min-width: 640px) {
-  .latin-label {
+  .mini-label {
     font-size: 11px;
   }
 }
@@ -135,7 +152,6 @@ select.field-input {
   cursor: pointer;
 }
 
-/* 数字输入去掉微调按钮，保持排版干净 */
 .field-input::-webkit-outer-spin-button,
 .field-input::-webkit-inner-spin-button {
   -webkit-appearance: none;
@@ -147,7 +163,21 @@ select.field-input {
   appearance: textfield;
 }
 
-/* 移动端字号微调 */
+/* 鎏金雕嵌盘绕的缓慢游动 */
+@keyframes goldDrift {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-1.5%);
+  }
+}
+
+.gold-wind {
+  animation: goldDrift 46s ease-in-out infinite;
+}
+
 @media (max-width: 639px) {
   h1 {
     font-size: 2.4rem;
