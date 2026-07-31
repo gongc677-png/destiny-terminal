@@ -6,6 +6,7 @@ import InputForm from './components/InputForm';
 import BaziCard from './components/BaziCard';
 import XiaoLiuRenCard from './components/XiaoLiuRenCard';
 import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import reliefUrl from './assets/relief.png';
 
 const contentFade = {
   initial: { opacity: 0 },
@@ -13,26 +14,13 @@ const contentFade = {
   exit: { opacity: 0 },
 };
 
-// 暗纹浮雕纹理（feTurbulence + feDiffuseLighting 立体光照）
-const TEX_URI = `data:image/svg+xml,${encodeURIComponent(
-  `<svg xmlns="http://www.w3.org/2000/svg" width="480" height="480">
-  <filter id="rel">
-    <feTurbulence type="fractalNoise" baseFrequency="0.55" numOctaves="3" stitchTiles="stitch" result="n"/>
-    <feDiffuseLighting in="n" surfaceScale="6" diffuseConstant="0.9" lighting-color="#c9a358">
-      <feDistantLight azimuth="45" elevation="60"/>
-    </feDiffuseLighting>
-  </filter>
-  <rect width="480" height="480" filter="url(#rel)"/>
-</svg>`
-)}`;
-
 function AmbientBackground() {
   return (
     <div aria-hidden="true" className="pointer-events-none absolute inset-0 overflow-hidden">
       {/* 暗纹浮雕 · 高斯模糊 */}
       <div
-        className="absolute -inset-[4%] opacity-[0.8] blur-[1px] mix-blend-soft-light"
-        style={{ backgroundImage: `url("${TEX_URI}")`, backgroundSize: '480px 480px' }}
+        className="absolute -inset-[4%] opacity-[0.85] blur-[1px]"
+        style={{ backgroundImage: `url("${reliefUrl}")`, backgroundSize: '360px 360px' }}
       />
       {/* 鎏金雕嵌 · 自然盘绕 */}
       <svg
@@ -41,15 +29,19 @@ function AmbientBackground() {
         preserveAspectRatio="xMidYMid slice"
       >
         <defs>
+          <filter id="engrave" x="-20%" y="-20%" width="140%" height="140%">
+            <feDropShadow dx="0" dy="1.5" stdDeviation="1.2" flood-color="#000" flood-opacity="0.9" />
+            <feDropShadow dx="0" dy="-0.5" stdDeviation="0.6" flood-color="#fff3d6" flood-opacity="0.3" />
+          </filter>
           <linearGradient id="goldLine" x1="0" y1="0" x2="1" y2="0">
-            <stop offset="0" stopColor="#6b542c" stopOpacity="0" />
-            <stop offset="0.22" stopColor="#9c7f46" />
-            <stop offset="0.5" stopColor="#c9a358" />
-            <stop offset="0.78" stopColor="#9c7f46" />
-            <stop offset="1" stopColor="#6b542c" stopOpacity="0" />
+            <stop offset="0" stopColor="#8a6d3b" stopOpacity="0" />
+            <stop offset="0.2" stopColor="#a8874a" />
+            <stop offset="0.5" stopColor="#e0c878" />
+            <stop offset="0.8" stopColor="#a8874a" />
+            <stop offset="1" stopColor="#8a6d3b" stopOpacity="0" />
           </linearGradient>
         </defs>
-        <g fill="none" stroke="url(#goldLine)">
+        <g fill="none" stroke="url(#goldLine)" filter="url(#engrave)">
           <path
             d="M-60,640 C140,540 260,720 430,630 C600,540 660,450 830,520 C1000,590 1120,680 1300,600 C1400,560 1470,575 1520,605"
             strokeWidth="1.6"

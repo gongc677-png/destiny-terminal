@@ -190,6 +190,10 @@ export default function BaziCard({ bazi }) {
           </div>
         </div>
       )}
+
+      <p className="mt-10 text-center font-serif text-xs tracking-[0.3em] text-muted-foreground/80 md:text-sm">
+        命盘已陈列 · 天时在我 · 抉择在君
+      </p>
     </motion.section>
   );
 }
