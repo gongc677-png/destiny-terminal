@@ -8,8 +8,11 @@ const fadeIn = { initial: { opacity: 0, y: 8 }, animate: { opacity: 1, y: 0 } };
 
 export default function BaziCard({ bazi }) {
   if (!bazi) return null;
-  const { pillars, wuxingCount, dayMaster, zodiac, daYun } = bazi;
+  const { pillars, wuxingCount, dayMaster, zodiac, daYun, lunarInfo } = bazi;
   const maxWx = Math.max(...Object.values(wuxingCount), 1);
+  const lunarText = lunarInfo
+    ? `农历${lunarInfo.yearChinese}年 ${lunarInfo.monthChinese}月${lunarInfo.dayChinese}`
+    : '';
 
   return (
     <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5 }}>
@@ -19,6 +22,7 @@ export default function BaziCard({ bazi }) {
           <CardTitle className="font-serif text-lg md:text-xl text-gold tracking-[0.15em]">八字命盘</CardTitle>
           <CardDescription className="text-muted-foreground text-sm md:text-base">
             日主：{dayMaster}　生肖：{zodiac}
+            {lunarText && <span className="block mt-1 text-xs md:text-sm">{lunarText}</span>}
           </CardDescription>
         </CardHeader>
         <CardContent className="flex flex-col gap-4 md:gap-6">
@@ -36,7 +40,20 @@ export default function BaziCard({ bazi }) {
                 <Badge variant="secondary" className="mt-1 text-[9px] md:text-[10px] bg-accent/20 text-gold border-accent/30">
                   {p.shiShen}
                 </Badge>
-                <div className="text-[8px] md:text-[9px] text-star-faint mt-1">藏干 {p.hiddenStem}·{p.hiddenShiShen}</div>
+                <div className="text-[8px] md:text-[9px] text-star-faint mt-1 leading-relaxed">
+                  {p.hiddenStems && p.hiddenStems.length > 0 ? (
+                    <>
+                      <span className="text-muted-foreground">藏干</span>{' '}
+                      {p.hiddenStems.join(' ')}
+                      <span className="block text-star-faint/80">{p.hiddenShiShens && p.hiddenShiShens.join(' ')}</span>
+                    </>
+                  ) : (
+                    '—'
+                  )}
+                </div>
+                {p.xunKong && (
+                  <div className="text-[8px] md:text-[9px] text-destructive/70 mt-0.5">旬空 {p.xunKong}</div>
+                )}
               </motion.div>
             ))}
           </motion.div>
@@ -83,13 +100,14 @@ export default function BaziCard({ bazi }) {
               <h3 className="font-serif text-sm md:text-base text-gold tracking-[0.15em] mb-3 md:mb-4">
                 大运排盘{' '}
                 <span className="text-[10px] md:text-[11px] text-muted-foreground font-sans">
-                  ({daYun.forward ? '顺排' : '逆排'} · {daYun.startAge}岁起运)
+                  ({daYun.forward ? '顺排' : '逆排'} · {daYun.startAge}岁起运
+                  {daYun.startYear ? ` · ${daYun.startYear}年${daYun.startMonth}月${daYun.startDay}日交运` : ''})
                 </span>
               </h3>
               <div className="grid grid-cols-2 sm:grid-cols-4 gap-1.5 md:gap-2">
                 {daYun.steps.map((step, i) => (
                   <div key={i} className="text-center py-2 md:py-2.5 border border-border rounded-lg bg-muted hover:border-accent hover:shadow-lg hover:scale-[1.03] transition-all duration-200">
-                    <span className="block text-[9px] md:text-[10px] text-star-faint">{step.age}岁</span>
+                    <span className="block text-[9px] md:text-[10px] text-star-faint">{step.startAge}-{step.endAge}岁</span>
                     <span className="block text-[12px] md:text-[13px] font-semibold text-foreground">{step.ganZhi}</span>
                     <span className="block text-[8px] md:text-[9px] text-star-faint">{step.nayin}</span>
                   </div>

@@ -7,6 +7,8 @@
  * 再从日落位起子时，顺数至出生时。
  */
 
+import { Solar } from 'lunar-javascript';
+
 export const ZHANG_JUE = [
   { name: '大安', desc: '身不动时，五行属木，颜色青色，方位东方。临青龙，主事事平安，求谋可成。', element: '木', fortune: '吉' },
   { name: '留连', desc: '卒未归时，五行属水，颜色黑色，方位北方。临玄武，主凡事拖延，去者未回。', element: '水', fortune: '平' },
@@ -23,7 +25,7 @@ export const ZHANG_JUE = [
  * @param {number} hour - 公历小时 (0-23)，转为时辰
  * @returns {{ result: object, path: number[] }}
  */
-export function calculateXiaoLiuRen(lunarMonth, lunarDay, hour) {
+export function calculateXiaoLiuRen(lunarMonth, lunarDay, hour, lunarExtra = {}) {
   // 时辰索引：0=子时 ... 11=亥时
   const shichenIdx = Math.floor(((hour + 1) % 24) / 2);
 
@@ -39,21 +41,23 @@ export function calculateXiaoLiuRen(lunarMonth, lunarDay, hour) {
   return {
     result: ZHANG_JUE[finalPos],
     path: [monthPos, dayPos, finalPos],
-    inputs: { lunarMonth, lunarDay, shichen: shichenIdx, shichenName: ['子','丑','寅','卯','辰','巳','午','未','申','酉','戌','亥'][shichenIdx] + '时' },
+    inputs: { lunarMonth, lunarDay, shichen: shichenIdx, shichenName: ['子','丑','寅','卯','辰','巳','午','未','申','酉','戌','亥'][shichenIdx] + '时', ...lunarExtra },
   };
 }
 
 /**
- * 简易公历→农历转换（近似，用于小六壬）
- * 仅做粗略映射，实际应用建议接入农历库
+ * 公历→农历转换（基于 lunar-javascript，精确）
+ * @returns {{ lunarMonth: number, lunarDay: number, lunarYear: number, isLeap: boolean, monthChinese: string, dayChinese: string }}
  */
 export function solarToLunarApprox(year, month, day) {
-  // 简化：直接用公历月日作为近似农历
-  // 误差在±1个月内，对小六壬推算影响可接受
+  const lunar = Solar.fromYmd(year, month, day).getLunar();
   return {
-    lunarMonth: month,
-    lunarDay: day,
-    lunarYear: year,
+    lunarMonth: Math.abs(lunar.getMonth()),
+    lunarDay: lunar.getDay(),
+    lunarYear: lunar.getYear(),
+    isLeap: lunar.getMonth() < 0,
+    monthChinese: lunar.getMonthInChinese(),
+    dayChinese: lunar.getDayInChinese(),
   };
 }
 
@@ -63,5 +67,8 @@ export function solarToLunarApprox(year, month, day) {
 export function quickXiaoLiuRen() {
   const now = new Date();
   const lunar = solarToLunarApprox(now.getFullYear(), now.getMonth() + 1, now.getDate());
-  return calculateXiaoLiuRen(lunar.lunarMonth, lunar.lunarDay, now.getHours());
+  return calculateXiaoLiuRen(lunar.lunarMonth, lunar.lunarDay, now.getHours(), {
+    monthChinese: lunar.monthChinese,
+    dayChinese: lunar.dayChinese,
+  });
 }

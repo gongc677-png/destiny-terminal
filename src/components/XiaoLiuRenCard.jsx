@@ -46,7 +46,9 @@ export default function XiaoLiuRenCard({ data }) {
         <CardHeader className="pb-1 md:pb-2">
           <CardTitle className="font-serif text-lg md:text-xl text-gold tracking-[0.15em]">小六壬 · 即时速断</CardTitle>
           <CardDescription className="text-muted-foreground text-sm md:text-base">
-            农历{inputs.lunarMonth}月{inputs.lunarDay}日 · {inputs.shichenName}
+            {inputs.monthChinese
+              ? `农历${inputs.monthChinese}月${inputs.dayChinese} · ${inputs.shichenName}`
+              : `农历${inputs.lunarMonth}月${inputs.lunarDay}日 · ${inputs.shichenName}`}
           </CardDescription>
         </CardHeader>
 

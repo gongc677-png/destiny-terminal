@@ -7,30 +7,42 @@ import { Sparkles } from 'lucide-react';
 
 export default function InputForm({ onCalculate }) {
   const now = new Date();
-  const [year, setYear] = useState(2000);
+  const [year, setYear] = useState(String(now.getFullYear()));
   const [month, setMonth] = useState(1);
   const [day, setDay] = useState(1);
   const [hour, setHour] = useState(12);
   const [isMale, setIsMale] = useState(true);
 
+  const yearNum = parseInt(year, 10);
+  const daysInMonth = yearNum >= 1900 && yearNum <= 2100
+    ? new Date(yearNum, month, 0).getDate()
+    : 31;
+  const safeDay = Math.min(day, daysInMonth);
+
   const handleSubmit = (e) => {
     e.preventDefault();
-    onCalculate({ year, month, day, hour, isMale });
+    if (!yearNum || yearNum < 1900 || yearNum > 2100) {
+      setYear(String(now.getFullYear()));
+      onCalculate({ year: now.getFullYear(), month, day: safeDay, hour, isMale });
+      return;
+    }
+    onCalculate({ year: yearNum, month, day: safeDay, hour, isMale });
   };
 
   const fillCurrent = () => {
-    setYear(now.getFullYear());
+    setYear(String(now.getFullYear()));
     setMonth(now.getMonth() + 1);
     setDay(now.getDate());
     setHour(now.getHours());
   };
 
-  const fields = [
-    { label: '出生年份', value: year, set: setYear, min: 1900, max: 2100 },
-    { label: '月份', value: month, set: (v) => setMonth(Math.min(12, Math.max(1, v))), min: 1, max: 12 },
-    { label: '日期', value: day, set: (v) => setDay(Math.min(31, Math.max(1, v))), min: 1, max: 31 },
-    { label: '时辰(0-23点)', value: hour, set: (v) => setHour(Math.min(23, Math.max(0, v))), min: 0, max: 23 },
-  ];
+  const monthOptions = Array.from({ length: 12 }, (_, i) => i + 1);
+  const dayOptions = Array.from({ length: daysInMonth }, (_, i) => i + 1);
+  const hourOptions = Array.from({ length: 24 }, (_, i) => i);
+  const shichenNames = ['子时','丑时','寅时','卯时','辰时','巳时','午时','未时','申时','酉时','戌时','亥时'];
+
+  const selectClass = 'bg-input border-border text-foreground h-11 md:h-12 rounded-lg px-2 md:px-3 w-full focus:outline-none focus:border-accent transition-all duration-200 appearance-none cursor-pointer';
+  const selectLabel = 'text-[11px] md:text-xs text-muted-foreground tracking-widest font-medium mb-1.5';
 
   return (
     <motion.form onSubmit={handleSubmit}
@@ -40,13 +52,39 @@ export default function InputForm({ onCalculate }) {
       transition={{ duration: 0.4, delay: 0.1 }}
     >
       <div className="grid grid-cols-2 gap-3 md:gap-4 mb-4 md:mb-6">
-        {fields.map((f, i) => (
-          <div key={i} className="flex flex-col gap-1.5">
-            <label className="text-[11px] md:text-xs text-muted-foreground tracking-widest font-medium">{f.label}</label>
-            <Input type="number" value={f.value} onChange={(e) => f.set(+e.target.value)} min={f.min} max={f.max}
-              className="bg-input border-border text-foreground h-11 md:h-12 rounded-lg focus-visible:ring-accent/20 transition-all duration-200" />
-          </div>
-        ))}
+        <div className="flex flex-col">
+          <label className={selectLabel}>出生年份</label>
+          <Input type="number" value={year} onChange={(e) => setYear(e.target.value)} min={1900} max={2100}
+            placeholder="如 1990"
+            className="bg-input border-border text-foreground h-11 md:h-12 rounded-lg focus-visible:ring-accent/20 transition-all duration-200" />
+        </div>
+
+        <div className="flex flex-col">
+          <label className={selectLabel}>月份</label>
+          <select value={month} onChange={(e) => setMonth(+e.target.value)} className={selectClass}>
+            {monthOptions.map((m) => (
+              <option key={m} value={m}>{m}月</option>
+            ))}
+          </select>
+        </div>
+
+        <div className="flex flex-col">
+          <label className={selectLabel}>日期</label>
+          <select value={safeDay} onChange={(e) => setDay(+e.target.value)} className={selectClass}>
+            {dayOptions.map((d) => (
+              <option key={d} value={d}>{d}日</option>
+            ))}
+          </select>
+        </div>
+
+        <div className="flex flex-col">
+          <label className={selectLabel}>时辰</label>
+          <select value={hour} onChange={(e) => setHour(+e.target.value)} className={selectClass}>
+            {hourOptions.map((h) => (
+              <option key={h} value={h}>{String(h).padStart(2, '0')}:00 · {shichenNames[Math.floor(((h + 1) % 24) / 2)]}</option>
+            ))}
+          </select>
+        </div>
       </div>
 
       <div className="flex items-center justify-between mb-4 md:mb-6">

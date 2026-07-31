@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { calculateBazi } from './algorithms/bazi';
+import { calculateBazi } from './algorithms/bazi_core';
 import { calculateXiaoLiuRen, quickXiaoLiuRen } from './algorithms/xiaoliuren';
 import InputForm from './components/InputForm';
 import BaziCard from './components/BaziCard';
