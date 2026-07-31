@@ -178,20 +178,6 @@ select.field-input {
   animation: goldDrift 46s ease-in-out infinite;
 }
 
-/* 太极恒转 */
-@keyframes taijiRotate {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
-}
-
-.taiji-spin {
-  animation: taijiRotate 26s linear infinite;
-}
-
 @media (max-width: 639px) {
   h1 {
     font-size: 2.4rem;
