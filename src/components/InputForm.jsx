@@ -1,32 +1,32 @@
 import { useState } from 'react';
 import { motion } from 'framer-motion';
-import { Input } from '@/components/ui/input';
-import { Button } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
-import { Sparkles } from 'lucide-react';
+
+const shichenNames = [
+  '子时','丑时','寅时','卯时','辰时','巳时',
+  '午时','未时','申时','酉时','戌时','亥时',
+];
 
 export default function InputForm({ onCalculate }) {
   const now = new Date();
   const [year, setYear] = useState(String(now.getFullYear()));
-  const [month, setMonth] = useState(1);
-  const [day, setDay] = useState(1);
-  const [hour, setHour] = useState(12);
+  const [month, setMonth] = useState(now.getMonth() + 1);
+  const [day, setDay] = useState(now.getDate());
+  const [hour, setHour] = useState(now.getHours());
   const [isMale, setIsMale] = useState(true);
 
   const yearNum = parseInt(year, 10);
-  const daysInMonth = yearNum >= 1900 && yearNum <= 2100
-    ? new Date(yearNum, month, 0).getDate()
-    : 31;
+  const daysInMonth =
+    yearNum >= 1900 && yearNum <= 2100
+      ? new Date(yearNum, month, 0).getDate()
+      : 31;
   const safeDay = Math.min(day, daysInMonth);
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    if (!yearNum || yearNum < 1900 || yearNum > 2100) {
-      setYear(String(now.getFullYear()));
-      onCalculate({ year: now.getFullYear(), month, day: safeDay, hour, isMale });
-      return;
-    }
-    onCalculate({ year: yearNum, month, day: safeDay, hour, isMale });
+    const y = yearNum >= 1900 && yearNum <= 2100 ? yearNum : now.getFullYear();
+    if (yearNum !== y) setYear(String(y));
+    onCalculate({ year: y, month, day: safeDay, hour, isMale });
   };
 
   const fillCurrent = () => {
@@ -39,80 +39,155 @@ export default function InputForm({ onCalculate }) {
   const monthOptions = Array.from({ length: 12 }, (_, i) => i + 1);
   const dayOptions = Array.from({ length: daysInMonth }, (_, i) => i + 1);
   const hourOptions = Array.from({ length: 24 }, (_, i) => i);
-  const shichenNames = ['子时','丑时','寅时','卯时','辰时','巳时','午时','未时','申时','酉时','戌时','亥时'];
 
-  const selectClass = 'bg-input border-border text-foreground h-11 md:h-12 rounded-lg px-2 md:px-3 w-full focus:outline-none focus:border-accent transition-all duration-200 appearance-none cursor-pointer';
-  const selectLabel = 'text-[11px] md:text-xs text-muted-foreground tracking-widest font-medium mb-1.5';
+  const chevron = (
+    <span className="pointer-events-none absolute bottom-[0.9rem] right-0 select-none text-[10px] text-muted-foreground">
+      ▾
+    </span>
+  );
 
   return (
-    <motion.form onSubmit={handleSubmit}
-      className="mb-5 rounded-2xl border border-border bg-card p-4 md:p-6 responsive-container"
-      initial={{ opacity: 0, y: 12 }}
+    <motion.section
+      initial={{ opacity: 0, y: 10 }}
       animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.4, delay: 0.1 }}
+      transition={{ duration: 0.5, delay: 0.05 }}
     >
-      <div className="grid grid-cols-2 gap-3 md:gap-4 mb-4 md:mb-6">
-        <div className="flex flex-col">
-          <label className={selectLabel}>出生年份</label>
-          <Input type="number" value={year} onChange={(e) => setYear(e.target.value)} min={1900} max={2100}
-            placeholder="如 1990"
-            className="bg-input border-border text-foreground h-11 md:h-12 rounded-lg focus-visible:ring-accent/20 transition-all duration-200" />
-        </div>
-
-        <div className="flex flex-col">
-          <label className={selectLabel}>月份</label>
-          <select value={month} onChange={(e) => setMonth(+e.target.value)} className={selectClass}>
-            {monthOptions.map((m) => (
-              <option key={m} value={m}>{m}月</option>
-            ))}
-          </select>
-        </div>
-
-        <div className="flex flex-col">
-          <label className={selectLabel}>日期</label>
-          <select value={safeDay} onChange={(e) => setDay(+e.target.value)} className={selectClass}>
-            {dayOptions.map((d) => (
-              <option key={d} value={d}>{d}日</option>
-            ))}
-          </select>
-        </div>
-
-        <div className="flex flex-col">
-          <label className={selectLabel}>时辰</label>
-          <select value={hour} onChange={(e) => setHour(+e.target.value)} className={selectClass}>
-            {hourOptions.map((h) => (
-              <option key={h} value={h}>{String(h).padStart(2, '0')}:00 · {shichenNames[Math.floor(((h + 1) % 24) / 2)]}</option>
-            ))}
-          </select>
-        </div>
+      <div className="flex items-baseline justify-between">
+        <h2 className="font-serif text-base tracking-[0.2em] md:text-lg">输入生辰</h2>
+        <span className="latin-label">Input · Birth Data</span>
       </div>
+      <div className="hairline mb-6 mt-3 md:mb-8" />
 
-      <div className="flex items-center justify-between mb-4 md:mb-6">
-        <div className="flex gap-1">
-          <button type="button" onClick={() => setIsMale(true)}
-            className={cn('px-4 md:px-6 py-2 rounded-lg text-sm md:text-base border transition-all duration-200',
-              isMale ? 'bg-accent text-accent-foreground border-gold shadow-[0_2px_8px_rgba(201,163,88,0.2)]' : 'bg-input text-muted-foreground border-border hover:border-accent')}>
-            男
-          </button>
-          <button type="button" onClick={() => setIsMale(false)}
-            className={cn('px-4 md:px-6 py-2 rounded-lg text-sm md:text-base border transition-all duration-200',
-              !isMale ? 'bg-accent text-accent-foreground border-gold shadow-[0_2px_8px_rgba(201,163,88,0.2)]' : 'bg-input text-muted-foreground border-border hover:border-accent')}>
-            女
+      <form onSubmit={handleSubmit}>
+        <div className="grid grid-cols-2 gap-x-6 gap-y-5 md:gap-x-10 md:gap-y-7">
+          <div>
+            <label className="latin-label mb-1 block">年份 · Year</label>
+            <input
+              type="number"
+              value={year}
+              onChange={(e) => setYear(e.target.value)}
+              min={1900}
+              max={2100}
+              placeholder="如 1990"
+              className="field-input"
+            />
+          </div>
+
+          <div>
+            <label className="latin-label mb-1 block">月份 · Month</label>
+            <div className="relative">
+              <select
+                value={month}
+                onChange={(e) => setMonth(+e.target.value)}
+                className="field-input pr-5"
+              >
+                {monthOptions.map((m) => (
+                  <option key={m} value={m}>
+                    {m} 月
+                  </option>
+                ))}
+              </select>
+              {chevron}
+            </div>
+          </div>
+
+          <div>
+            <label className="latin-label mb-1 block">日期 · Day</label>
+            <div className="relative">
+              <select
+                value={safeDay}
+                onChange={(e) => setDay(+e.target.value)}
+                className="field-input pr-5"
+              >
+                {dayOptions.map((d) => (
+                  <option key={d} value={d}>
+                    {d} 日
+                  </option>
+                ))}
+              </select>
+              {chevron}
+            </div>
+          </div>
+
+          <div>
+            <label className="latin-label mb-1 block">时辰 · Hour</label>
+            <div className="relative">
+              <select
+                value={hour}
+                onChange={(e) => setHour(+e.target.value)}
+                className="field-input pr-5"
+              >
+                {hourOptions.map((h) => (
+                  <option key={h} value={h}>
+                    {String(h).padStart(2, '0')}:00 · {shichenNames[Math.floor(((h + 1) % 24) / 2)]}
+                  </option>
+                ))}
+              </select>
+              {chevron}
+            </div>
+          </div>
+        </div>
+
+        <div className="mt-7 flex items-center justify-between md:mt-9">
+          <div className="flex gap-6 md:gap-8">
+            <button
+              type="button"
+              onClick={() => setIsMale(true)}
+              className={cn(
+                'border-b pb-1 font-serif text-sm tracking-[0.4em] transition-colors duration-200',
+                isMale
+                  ? 'border-accent text-foreground'
+                  : 'border-transparent text-muted-foreground hover:text-foreground'
+              )}
+            >
+              男
+            </button>
+            <button
+              type="button"
+              onClick={() => setIsMale(false)}
+              className={cn(
+                'border-b pb-1 font-serif text-sm tracking-[0.4em] transition-colors duration-200',
+                !isMale
+                  ? 'border-accent text-foreground'
+                  : 'border-transparent text-muted-foreground hover:text-foreground'
+              )}
+            >
+              女
+            </button>
+          </div>
+          <button
+            type="button"
+            onClick={fillCurrent}
+            className="flex items-center gap-1.5 text-xs text-muted-foreground transition-colors duration-200 hover:text-foreground md:text-sm"
+          >
+            <svg
+              className="h-3 w-3 md:h-3.5 md:w-3.5"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={1.5}
+                d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"
+              />
+            </svg>
+            填入当前
           </button>
         </div>
-        <button type="button" onClick={fillCurrent}
-          className="text-xs md:text-sm text-muted-foreground border border-border rounded-lg px-3 md:px-4 py-2 hover:border-accent hover:text-foreground transition-all duration-200 flex items-center gap-1 md:gap-2">
-          <svg className="w-3 h-3 md:w-4 md:h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
-          </svg>
-          填入当前
-        </button>
-      </div>
 
-      <Button type="submit"
-        className="w-full h-12 md:h-14 bg-gradient-to-r from-accent to-[#5a4822] hover:from-gold hover:to-accent text-accent-foreground font-semibold tracking-[0.2em] text-base md:text-lg rounded-xl shadow-[0_4px_24px_rgba(201,163,88,0.15)] transition-all duration-300 transform hover:scale-[1.02] active:scale-[0.98]">
-        <Sparkles data-icon="inline-start" className="w-4 h-4 md:w-5 md:h-5" /> 排盘
-      </Button>
-    </motion.form>
+        <motion.button
+          type="submit"
+          whileTap={{ scale: 0.985 }}
+          className="mt-8 w-full border border-foreground/25 py-4 font-serif text-base tracking-[0.5em] transition-colors duration-300 hover:border-accent hover:bg-accent hover:text-accent-foreground md:mt-10 md:py-5 md:text-lg"
+        >
+          起 盘
+          <span className="mt-1 block text-[9px] uppercase tracking-[0.45em] opacity-60">
+            Cast the Chart
+          </span>
+        </motion.button>
+      </form>
+    </motion.section>
   );
 }
