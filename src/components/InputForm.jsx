@@ -29,7 +29,7 @@ export default function InputForm({ onCalculate }) {
     { label: '出生年份', value: year, set: setYear, min: 1900, max: 2100 },
     { label: '月份', value: month, set: (v) => setMonth(Math.min(12, Math.max(1, v))), min: 1, max: 12 },
     { label: '日期', value: day, set: (v) => setDay(Math.min(31, Math.max(1, v))), min: 1, max: 31 },
-    { label: '时辰(0-23�?', value: hour, set: (v) => setHour(Math.min(23, Math.max(0, v))), min: 0, max: 23 },
+    { label: '时辰(0-23点)', value: hour, set: (v) => setHour(Math.min(23, Math.max(0, v))), min: 0, max: 23 },
   ];
 
   return (
@@ -41,25 +41,25 @@ export default function InputForm({ onCalculate }) {
     >
       <div className="grid grid-cols-2 gap-3 md:gap-4 mb-4 md:mb-6">
         {fields.map((f, i) => (
-          <div key={i} className="flex flex-col gap-1.5 md:gap-2">
-            <label className="text-[11px] md:text-[12px] text-muted-foreground tracking-widest font-medium">{f.label}</label>
+          <div key={i} className="flex flex-col gap-1.5">
+            <label className="text-[11px] md:text-xs text-muted-foreground tracking-widest font-medium">{f.label}</label>
             <Input type="number" value={f.value} onChange={(e) => f.set(+e.target.value)} min={f.min} max={f.max}
-              className="bg-input border-border text-foreground h-11 md:h-12 rounded-lg focus-visible:ring-accent/20 transition-all duration-200 placeholder:text-star-faint/50" />
+              className="bg-input border-border text-foreground h-11 md:h-12 rounded-lg focus-visible:ring-accent/20 transition-all duration-200" />
           </div>
         ))}
       </div>
 
       <div className="flex items-center justify-between mb-4 md:mb-6">
-        <div className="flex gap-1 md:gap-2">
+        <div className="flex gap-1">
           <button type="button" onClick={() => setIsMale(true)}
             className={cn('px-4 md:px-6 py-2 rounded-lg text-sm md:text-base border transition-all duration-200',
               isMale ? 'bg-accent text-accent-foreground border-gold shadow-[0_2px_8px_rgba(201,163,88,0.2)]' : 'bg-input text-muted-foreground border-border hover:border-accent')}>
-            �?
+            男
           </button>
           <button type="button" onClick={() => setIsMale(false)}
             className={cn('px-4 md:px-6 py-2 rounded-lg text-sm md:text-base border transition-all duration-200',
               !isMale ? 'bg-accent text-accent-foreground border-gold shadow-[0_2px_8px_rgba(201,163,88,0.2)]' : 'bg-input text-muted-foreground border-border hover:border-accent')}>
-            �?
+            女
           </button>
         </div>
         <button type="button" onClick={fillCurrent}
